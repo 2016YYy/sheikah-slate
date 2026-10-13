@@ -1,0 +1,1181 @@
+[
+  {
+    "name": "大师剑",
+    "type": "单手剑",
+    "atk": 30,
+    "dur": "40",
+    "special": "传说驱魔之剑；对盖侬系伤害提升至60；耐久归零后可再生",
+    "obtain": "克洛格森林剑座，需13心拔出",
+    "note": "面对灾厄时攻击力60、耐久可累积至188"
+  },
+  {
+    "name": "真·大师剑",
+    "type": "单手剑",
+    "atk": 60,
+    "dur": "188",
+    "special": "大师剑觉醒/常驻剑气形态",
+    "obtain": "同大师剑（靠近盖侬或DLC剑之试炼通关后常驻）",
+    "note": "非独立可拾取物品，为大师剑强化形态，数值待核实"
+  },
+  {
+    "name": "旅人之剑",
+    "type": "单手剑",
+    "atk": 5,
+    "dur": "20",
+    "special": "",
+    "obtain": "海拉鲁全境初期宝箱、敌人掉落",
+    "note": ""
+  },
+  {
+    "name": "士兵之剑",
+    "type": "单手剑",
+    "atk": 14,
+    "dur": "25",
+    "special": "",
+    "obtain": "海拉鲁城堡及边境据点士兵掉落、宝箱",
+    "note": ""
+  },
+  {
+    "name": "骑士之剑",
+    "type": "单手剑",
+    "atk": 26,
+    "dur": "27",
+    "special": "",
+    "obtain": "骑士级敌人、神庙宝箱、城堡",
+    "note": ""
+  },
+  {
+    "name": "王族之剑",
+    "type": "单手剑",
+    "atk": 36,
+    "dur": "36",
+    "special": "",
+    "obtain": "高难度地区宝箱、西诺克斯/银怪掉落、城堡",
+    "note": ""
+  },
+  {
+    "name": "近卫之剑",
+    "type": "单手剑",
+    "atk": 48,
+    "dur": "14",
+    "special": "高攻低耐久",
+    "obtain": "海拉鲁城堡内（近卫装备）",
+    "note": ""
+  },
+  {
+    "name": "森民之剑",
+    "type": "单手剑",
+    "atk": 26,
+    "dur": "27",
+    "special": "木制可导电特性反例（雨天不引雷）",
+    "obtain": "克洛格森林、海拉鲁驻军地遗迹",
+    "note": ""
+  },
+  {
+    "name": "卓拉之剑",
+    "type": "单手剑",
+    "atk": 15,
+    "dur": "27",
+    "special": "",
+    "obtain": "卓拉领地周边",
+    "note": ""
+  },
+  {
+    "name": "斩风羽剑",
+    "type": "单手剑",
+    "atk": 15,
+    "dur": "27",
+    "special": "",
+    "obtain": "利特村周边",
+    "note": ""
+  },
+  {
+    "name": "格鲁德匕首",
+    "type": "单手剑",
+    "atk": 16,
+    "dur": "23",
+    "special": "",
+    "obtain": "格鲁德小镇周边",
+    "note": ""
+  },
+  {
+    "name": "月光匕首",
+    "type": "单手剑",
+    "atk": 25,
+    "dur": "32",
+    "special": "",
+    "obtain": "格鲁德地区",
+    "note": ""
+  },
+  {
+    "name": "七宝匕首",
+    "type": "单手剑",
+    "atk": 32,
+    "dur": "60",
+    "special": "英杰乌尔波扎爱用名剑",
+    "obtain": "击败乌尔波扎后于格鲁德小镇复刻获得",
+    "note": "英杰武器"
+  },
+  {
+    "name": "戒心小刀",
+    "type": "单手剑",
+    "atk": 15,
+    "dur": "26",
+    "special": "",
+    "obtain": "希卡族相关、指定宝箱",
+    "note": ""
+  },
+  {
+    "name": "古代兵装·剑",
+    "type": "单手剑",
+    "atk": 40,
+    "dur": "54",
+    "special": "对古代兵/守护者1.5倍特效",
+    "obtain": "阿卡莱古代研究所购买",
+    "note": ""
+  },
+  {
+    "name": "火焰剑",
+    "type": "单手剑",
+    "atk": 24,
+    "dur": "36",
+    "special": "火元素，挥砍喷出火焰",
+    "obtain": "死亡之山附近、竞技场",
+    "note": ""
+  },
+  {
+    "name": "冰雪剑",
+    "type": "单手剑",
+    "atk": 20,
+    "dur": "30",
+    "special": "冰元素，命中冻结敌人",
+    "obtain": "海布拉山脉极寒地区",
+    "note": ""
+  },
+  {
+    "name": "雷电剑",
+    "type": "单手剑",
+    "atk": 22,
+    "dur": "36",
+    "special": "电元素，命中麻痹敌人",
+    "obtain": "海拉鲁丘陵/雷之台地",
+    "note": ""
+  },
+  {
+    "name": "守护者匕首",
+    "type": "单手剑",
+    "atk": 20,
+    "dur": "17",
+    "special": "",
+    "obtain": "小型守护者（神庙试炼）掉落",
+    "note": ""
+  },
+  {
+    "name": "守护者匕首+",
+    "type": "单手剑",
+    "atk": 30,
+    "dur": "26",
+    "special": "",
+    "obtain": "高级小型守护者掉落",
+    "note": ""
+  },
+  {
+    "name": "守护者匕首++",
+    "type": "单手剑",
+    "atk": 40,
+    "dur": "32",
+    "special": "",
+    "obtain": "最高级小型守护者掉落",
+    "note": ""
+  },
+  {
+    "name": "莱尼尔之剑",
+    "type": "单手剑",
+    "atk": 24,
+    "dur": "26",
+    "special": "",
+    "obtain": "莱尼尔（人马）掉落",
+    "note": ""
+  },
+  {
+    "name": "兽王剑",
+    "type": "单手剑",
+    "atk": 36,
+    "dur": "32",
+    "special": "",
+    "obtain": "蓝鬃/白鬃莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽神剑",
+    "type": "单手剑",
+    "atk": 58,
+    "dur": "41",
+    "special": "",
+    "obtain": "白鬃/金银莱尼尔掉落",
+    "note": "即兽神单手剑"
+  },
+  {
+    "name": "夺命镰刀",
+    "type": "单手剑",
+    "atk": 16,
+    "dur": "14",
+    "special": "",
+    "obtain": "依盖队成员掉落",
+    "note": ""
+  },
+  {
+    "name": "恶魔圆刃",
+    "type": "单手剑",
+    "atk": 40,
+    "dur": "25",
+    "special": "",
+    "obtain": "依盖队干部掉落",
+    "note": ""
+  },
+  {
+    "name": "波克棒",
+    "type": "单手剑",
+    "atk": 4,
+    "dur": "8",
+    "special": "",
+    "obtain": "波克布林掉落",
+    "note": ""
+  },
+  {
+    "name": "龙骨波克棒",
+    "type": "单手剑",
+    "atk": 24,
+    "dur": "18",
+    "special": "",
+    "obtain": "高级波克布林掉落",
+    "note": ""
+  },
+  {
+    "name": "女神的白刃剑",
+    "type": "单手剑",
+    "atk": 40,
+    "dur": "约30",
+    "special": "amiibo专属传说剑",
+    "obtain": "使用天剑林克amiibo召唤掉落",
+    "note": "amiibo武器，攻击力/耐久约值待核实"
+  },
+  {
+    "name": "旅人双手剑",
+    "type": "双手剑",
+    "atk": 10,
+    "dur": "20",
+    "special": "",
+    "obtain": "初期各地冒险者宝箱",
+    "note": ""
+  },
+  {
+    "name": "士兵双手剑",
+    "type": "双手剑",
+    "atk": 20,
+    "dur": "25",
+    "special": "",
+    "obtain": "士兵级敌人、宝箱",
+    "note": ""
+  },
+  {
+    "name": "骑士双手剑",
+    "type": "双手剑",
+    "atk": 38,
+    "dur": "30",
+    "special": "",
+    "obtain": "骑士级敌人、城堡",
+    "note": ""
+  },
+  {
+    "name": "王族双手剑",
+    "type": "双手剑",
+    "atk": 52,
+    "dur": "40",
+    "special": "",
+    "obtain": "高难度地区宝箱、城堡",
+    "note": ""
+  },
+  {
+    "name": "近卫双手剑",
+    "type": "双手剑",
+    "atk": 72,
+    "dur": "15",
+    "special": "高攻低耐久",
+    "obtain": "海拉鲁城堡内",
+    "note": ""
+  },
+  {
+    "name": "卓拉大剑",
+    "type": "双手剑",
+    "atk": 22,
+    "dur": "30",
+    "special": "",
+    "obtain": "卓拉领地周边",
+    "note": ""
+  },
+  {
+    "name": "劈石剑",
+    "type": "双手剑",
+    "atk": 15,
+    "dur": "30",
+    "special": "",
+    "obtain": "鼓隆城周边",
+    "note": ""
+  },
+  {
+    "name": "碎岩剑",
+    "type": "双手剑",
+    "atk": 42,
+    "dur": "40",
+    "special": "",
+    "obtain": "鼓隆城周边稀有金属",
+    "note": ""
+  },
+  {
+    "name": "碎岩巨剑",
+    "type": "双手剑",
+    "atk": 60,
+    "dur": "60",
+    "special": "英杰达尔克尔爱用大剑",
+    "obtain": "鼓隆城复刻获得",
+    "note": "英杰武器"
+  },
+  {
+    "name": "格鲁德双手剑",
+    "type": "双手剑",
+    "atk": 28,
+    "dur": "30",
+    "special": "",
+    "obtain": "格鲁德地区",
+    "note": ""
+  },
+  {
+    "name": "戒心长刀",
+    "type": "双手剑",
+    "atk": 32,
+    "dur": "25",
+    "special": "",
+    "obtain": "希卡族相关宝箱",
+    "note": ""
+  },
+  {
+    "name": "静心大剑",
+    "type": "双手剑",
+    "atk": 50,
+    "dur": "35",
+    "special": "",
+    "obtain": "格鲁德之塔西北山洞（静止器开石）",
+    "note": ""
+  },
+  {
+    "name": "古代兵装·大剑",
+    "type": "双手剑",
+    "atk": 55,
+    "dur": "50",
+    "special": "对古代兵/守护者1.5倍特效",
+    "obtain": "阿卡莱古代研究所购买",
+    "note": ""
+  },
+  {
+    "name": "火焰大剑",
+    "type": "双手剑",
+    "atk": 34,
+    "dur": "50",
+    "special": "火元素",
+    "obtain": "死亡之山附近",
+    "note": ""
+  },
+  {
+    "name": "冰雪大剑",
+    "type": "双手剑",
+    "atk": 30,
+    "dur": "40",
+    "special": "冰元素",
+    "obtain": "海布拉山脉",
+    "note": ""
+  },
+  {
+    "name": "雷电大剑",
+    "type": "双手剑",
+    "atk": 32,
+    "dur": "50",
+    "special": "电元素",
+    "obtain": "雷之台地附近",
+    "note": ""
+  },
+  {
+    "name": "六贤者之剑",
+    "type": "双手剑",
+    "atk": 48,
+    "dur": "50",
+    "special": "amiibo专属（黄昏公主）",
+    "obtain": "使用对应amiibo召唤",
+    "note": "amiibo武器，数值待核实"
+  },
+  {
+    "name": "大鼓隆之剑",
+    "type": "双手剑",
+    "atk": 50,
+    "dur": "60",
+    "special": "amiibo专属（时之笛）",
+    "obtain": "使用30周年林克amiibo召唤",
+    "note": "amiibo武器"
+  },
+  {
+    "name": "鬼神大剑",
+    "type": "双手剑",
+    "atk": 60,
+    "dur": "35",
+    "special": "amiibo专属（梦岛/鬼神套）",
+    "obtain": "使用对应的林克amiibo召唤",
+    "note": "amiibo武器"
+  },
+  {
+    "name": "莫力布林棍",
+    "type": "双手剑",
+    "atk": 9,
+    "dur": "12",
+    "special": "",
+    "obtain": "莫力布林掉落",
+    "note": ""
+  },
+  {
+    "name": "龙骨莫力布林棍",
+    "type": "双手剑",
+    "atk": 45,
+    "dur": "24",
+    "special": "",
+    "obtain": "高级莫力布林掉落",
+    "note": ""
+  },
+  {
+    "name": "守护者之斧",
+    "type": "双手剑",
+    "atk": 30,
+    "dur": "15",
+    "special": "",
+    "obtain": "小型守护者掉落",
+    "note": ""
+  },
+  {
+    "name": "守护者之斧+",
+    "type": "双手剑",
+    "atk": 45,
+    "dur": "20",
+    "special": "",
+    "obtain": "高级小型守护者掉落",
+    "note": ""
+  },
+  {
+    "name": "守护者之斧++",
+    "type": "双手剑",
+    "atk": 60,
+    "dur": "25",
+    "special": "",
+    "obtain": "最高级小型守护者掉落",
+    "note": ""
+  },
+  {
+    "name": "莱尼尔大剑",
+    "type": "双手剑",
+    "atk": 36,
+    "dur": "20",
+    "special": "",
+    "obtain": "莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽王大剑",
+    "type": "双手剑",
+    "atk": 54,
+    "dur": "25",
+    "special": "",
+    "obtain": "蓝鬃以上莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽神大剑",
+    "type": "双手剑",
+    "atk": 78,
+    "dur": "35",
+    "special": "",
+    "obtain": "白鬃/金银莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "斩风刀",
+    "type": "双手剑",
+    "atk": 40,
+    "dur": "25",
+    "special": "可放出真空刀刃",
+    "obtain": "依盖队干部掉落",
+    "note": ""
+  },
+  {
+    "name": "旅人之枪",
+    "type": "长枪",
+    "atk": 3,
+    "dur": "30",
+    "special": "",
+    "obtain": "初期各地",
+    "note": ""
+  },
+  {
+    "name": "士兵之枪",
+    "type": "长枪",
+    "atk": 7,
+    "dur": "35",
+    "special": "",
+    "obtain": "士兵级敌人",
+    "note": ""
+  },
+  {
+    "name": "骑士之枪",
+    "type": "长枪",
+    "atk": 13,
+    "dur": "40",
+    "special": "",
+    "obtain": "骑士级敌人",
+    "note": ""
+  },
+  {
+    "name": "王族之枪",
+    "type": "长枪",
+    "atk": 26,
+    "dur": "50",
+    "special": "",
+    "obtain": "高难度地区、城堡",
+    "note": ""
+  },
+  {
+    "name": "近卫之枪",
+    "type": "长枪",
+    "atk": 32,
+    "dur": "15",
+    "special": "高攻低耐久",
+    "obtain": "海拉鲁城堡内",
+    "note": ""
+  },
+  {
+    "name": "森民之枪",
+    "type": "长枪",
+    "atk": 11,
+    "dur": "35",
+    "special": "",
+    "obtain": "克洛格森林周边",
+    "note": ""
+  },
+  {
+    "name": "卓拉之枪",
+    "type": "长枪",
+    "atk": 9,
+    "dur": "40",
+    "special": "",
+    "obtain": "卓拉领地周边",
+    "note": ""
+  },
+  {
+    "name": "银鳞之枪",
+    "type": "长枪",
+    "atk": 9,
+    "dur": "40",
+    "special": "",
+    "obtain": "卓拉领地周边",
+    "note": "与卓拉之枪数值近似"
+  },
+  {
+    "name": "祭祀之枪",
+    "type": "长枪",
+    "atk": 14,
+    "dur": "40",
+    "special": "",
+    "obtain": "卓拉领地（模仿光鳞之枪制作）",
+    "note": ""
+  },
+  {
+    "name": "光鳞之枪",
+    "type": "长枪",
+    "atk": 22,
+    "dur": "70",
+    "special": "英杰米法爱用名枪",
+    "obtain": "卓拉领地复刻获得",
+    "note": "英杰武器"
+  },
+  {
+    "name": "削岩棒",
+    "type": "长枪",
+    "atk": 14,
+    "dur": "50",
+    "special": "",
+    "obtain": "鼓隆城周边",
+    "note": ""
+  },
+  {
+    "name": "斩风羽枪",
+    "type": "长枪",
+    "atk": 10,
+    "dur": "35",
+    "special": "",
+    "obtain": "利特村周边",
+    "note": ""
+  },
+  {
+    "name": "格鲁德之枪",
+    "type": "长枪",
+    "atk": 16,
+    "dur": "35",
+    "special": "",
+    "obtain": "格鲁德地区",
+    "note": ""
+  },
+  {
+    "name": "古代兵装·枪",
+    "type": "长枪",
+    "atk": 30,
+    "dur": "50",
+    "special": "对古代兵/守护者1.5倍特效",
+    "obtain": "阿卡莱古代研究所购买",
+    "note": ""
+  },
+  {
+    "name": "火焰枪",
+    "type": "长枪",
+    "atk": 24,
+    "dur": "50",
+    "special": "火元素",
+    "obtain": "死亡之山附近",
+    "note": ""
+  },
+  {
+    "name": "冰雪枪",
+    "type": "长枪",
+    "atk": 20,
+    "dur": "40",
+    "special": "冰元素",
+    "obtain": "海布拉山脉",
+    "note": ""
+  },
+  {
+    "name": "雷电枪",
+    "type": "长枪",
+    "atk": 22,
+    "dur": "50",
+    "special": "电元素",
+    "obtain": "雷之台地附近",
+    "note": ""
+  },
+  {
+    "name": "莱尼尔之枪",
+    "type": "长枪",
+    "atk": 14,
+    "dur": "25",
+    "special": "",
+    "obtain": "莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽王枪",
+    "type": "长枪",
+    "atk": 20,
+    "dur": "35",
+    "special": "",
+    "obtain": "蓝鬃以上莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽神枪",
+    "type": "长枪",
+    "atk": 30,
+    "dur": "45",
+    "special": "",
+    "obtain": "白鬃/金银莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "木弓",
+    "type": "弓",
+    "atk": 4,
+    "dur": "20",
+    "special": "射程20",
+    "obtain": "初期各地、狩猎",
+    "note": ""
+  },
+  {
+    "name": "旅人弓",
+    "type": "弓",
+    "atk": 5,
+    "dur": "22",
+    "special": "射程20",
+    "obtain": "初期宝箱、敌人掉落",
+    "note": ""
+  },
+  {
+    "name": "士兵弓",
+    "type": "弓",
+    "atk": 14,
+    "dur": "36",
+    "special": "射程20",
+    "obtain": "士兵级敌人",
+    "note": ""
+  },
+  {
+    "name": "骑士弓",
+    "type": "弓",
+    "atk": 26,
+    "dur": "48",
+    "special": "射程20",
+    "obtain": "骑士级敌人、城堡",
+    "note": ""
+  },
+  {
+    "name": "王族弓",
+    "type": "弓",
+    "atk": 38,
+    "dur": "60",
+    "special": "射程20",
+    "obtain": "高难度地区、城堡（皇宫厨房吊灯等）",
+    "note": ""
+  },
+  {
+    "name": "森民之弓",
+    "type": "弓",
+    "atk": 15,
+    "dur": "35",
+    "special": "三连射（一次3支箭）",
+    "obtain": "克洛格森林周边",
+    "note": ""
+  },
+  {
+    "name": "卓拉之弓",
+    "type": "弓",
+    "atk": 15,
+    "dur": "40",
+    "special": "射程20，金属防锈",
+    "obtain": "卓拉领地周边",
+    "note": ""
+  },
+  {
+    "name": "飞燕弓",
+    "type": "弓",
+    "atk": 9,
+    "dur": "30",
+    "special": "射程40，快速拉弓",
+    "obtain": "利特村周边",
+    "note": ""
+  },
+  {
+    "name": "猎弓",
+    "type": "弓",
+    "atk": 20,
+    "dur": "50",
+    "special": "射程40，速射",
+    "obtain": "利特村周边",
+    "note": ""
+  },
+  {
+    "name": "大鹫弓",
+    "type": "弓",
+    "atk": 28,
+    "dur": "60",
+    "special": "三连射，射程40",
+    "obtain": "利特村（丘栗/特巴相关任务）复刻",
+    "note": "英杰力巴尔之弓"
+  },
+  {
+    "name": "黄金弓",
+    "type": "弓",
+    "atk": 14,
+    "dur": "60",
+    "special": "射程40，远距狙击",
+    "obtain": "格鲁德地区",
+    "note": ""
+  },
+  {
+    "name": "一心弓",
+    "type": "弓",
+    "atk": 10,
+    "dur": "45",
+    "special": "射程40，蓄力瞄准远处",
+    "obtain": "希卡族相关",
+    "note": ""
+  },
+  {
+    "name": "古代兵装·弓",
+    "type": "弓",
+    "atk": 44,
+    "dur": "120",
+    "special": "射程50，箭直线飞行，对古代特效",
+    "obtain": "阿卡莱古代研究所购买（需古代核心等材料）",
+    "note": ""
+  },
+  {
+    "name": "近卫之弓",
+    "type": "弓",
+    "atk": 50,
+    "dur": "20",
+    "special": "射程30，高攻低耐久",
+    "obtain": "海拉鲁城堡内",
+    "note": ""
+  },
+  {
+    "name": "黄昏之弓",
+    "type": "弓",
+    "atk": 30,
+    "dur": "100",
+    "special": "超远射程（约8000），amiibo专属",
+    "obtain": "使用黄昏公主公主amiibo召唤",
+    "note": "amiibo武器"
+  },
+  {
+    "name": "二连弓",
+    "type": "弓",
+    "atk": 14,
+    "dur": "18",
+    "special": "二连射（一次2支箭），射程40",
+    "obtain": "依盖队成员掉落",
+    "note": ""
+  },
+  {
+    "name": "波克弓",
+    "type": "弓",
+    "atk": 4,
+    "dur": "16",
+    "special": "",
+    "obtain": "波克布林掉落",
+    "note": ""
+  },
+  {
+    "name": "尖刺波克弓",
+    "type": "弓",
+    "atk": 12,
+    "dur": "20",
+    "special": "",
+    "obtain": "高级波克布林掉落",
+    "note": ""
+  },
+  {
+    "name": "龙骨波克弓",
+    "type": "弓",
+    "atk": 24,
+    "dur": "30",
+    "special": "",
+    "obtain": "高级波克布林掉落",
+    "note": ""
+  },
+  {
+    "name": "莱尼尔弓",
+    "type": "弓",
+    "atk": 10,
+    "dur": "30",
+    "special": "三连射",
+    "obtain": "莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽王弓",
+    "type": "弓",
+    "atk": 20,
+    "dur": "35",
+    "special": "三连射",
+    "obtain": "蓝鬃以上莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽神弓",
+    "type": "弓",
+    "atk": 32,
+    "dur": "45",
+    "special": "三连射",
+    "obtain": "白鬃/金银莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "光之弓",
+    "type": "弓",
+    "atk": 100,
+    "dur": "100",
+    "special": "传说光矢，耐久不消耗，射程500",
+    "obtain": "最终决战暗黑盖侬时由塞尔达授予",
+    "note": "不可在常规冒险中保留"
+  },
+  {
+    "name": "木盾",
+    "type": "盾",
+    "guard": 2,
+    "dur": "12",
+    "special": "",
+    "obtain": "初期各地",
+    "note": ""
+  },
+  {
+    "name": "锅盖",
+    "type": "盾",
+    "guard": 1,
+    "dur": "约3",
+    "special": "",
+    "obtain": "平底锅拾取（海拉鲁全境厨房/锅）",
+    "note": "耐久约值待核实"
+  },
+  {
+    "name": "鱼纹盾",
+    "type": "盾",
+    "guard": 3,
+    "dur": "10",
+    "special": "",
+    "obtain": "渔村周边",
+    "note": ""
+  },
+  {
+    "name": "旅人盾",
+    "type": "盾",
+    "guard": 4,
+    "dur": "12",
+    "special": "",
+    "obtain": "初期各地、敌人掉落",
+    "note": ""
+  },
+  {
+    "name": "士兵盾",
+    "type": "盾",
+    "guard": 16,
+    "dur": "16",
+    "special": "",
+    "obtain": "士兵级敌人",
+    "note": ""
+  },
+  {
+    "name": "骑士盾",
+    "type": "盾",
+    "guard": 40,
+    "dur": "约18",
+    "special": "",
+    "obtain": "骑士级敌人、城堡",
+    "note": "耐久约值待核实"
+  },
+  {
+    "name": "王族盾",
+    "type": "盾",
+    "guard": 55,
+    "dur": "约29",
+    "special": "",
+    "obtain": "高难度地区、城堡",
+    "note": "耐久约值待核实"
+  },
+  {
+    "name": "海利亚盾",
+    "type": "盾",
+    "guard": 90,
+    "dur": "800",
+    "special": "全游戏最强盾，可盾反守护者激光",
+    "obtain": "海拉鲁城堡地牢西诺克斯房间宝箱",
+    "note": "防御/耐久可随附加词条强化至更高"
+  },
+  {
+    "name": "森民之盾",
+    "type": "盾",
+    "guard": 30,
+    "dur": "18",
+    "special": "",
+    "obtain": "克洛格森林",
+    "note": ""
+  },
+  {
+    "name": "卓拉之盾",
+    "type": "盾",
+    "guard": 18,
+    "dur": "20",
+    "special": "",
+    "obtain": "卓拉领地周边",
+    "note": ""
+  },
+  {
+    "name": "风筝盾",
+    "type": "盾",
+    "guard": 14,
+    "dur": "16",
+    "special": "",
+    "obtain": "利特村周边（便于空中作战）",
+    "note": ""
+  },
+  {
+    "name": "格鲁德盾",
+    "type": "盾",
+    "guard": 20,
+    "dur": "20",
+    "special": "",
+    "obtain": "格鲁德地区",
+    "note": ""
+  },
+  {
+    "name": "光辉盾",
+    "type": "盾",
+    "guard": 35,
+    "dur": "26",
+    "special": "",
+    "obtain": "格鲁德队长级战士",
+    "note": ""
+  },
+  {
+    "name": "破晓盾",
+    "type": "盾",
+    "guard": 48,
+    "dur": "60",
+    "special": "英杰乌尔波扎爱用盾",
+    "obtain": "格鲁德小镇复刻获得",
+    "note": "英杰武器"
+  },
+  {
+    "name": "心眼之盾",
+    "type": "盾",
+    "guard": 16,
+    "dur": "16",
+    "special": "",
+    "obtain": "希卡族相关",
+    "note": ""
+  },
+  {
+    "name": "古代兵装·盾",
+    "type": "盾",
+    "guard": 70,
+    "dur": "32",
+    "special": "可自动反弹守护者激光",
+    "obtain": "阿卡莱古代研究所购买",
+    "note": ""
+  },
+  {
+    "name": "生锈的盾",
+    "type": "盾",
+    "guard": 3,
+    "dur": "16",
+    "special": "",
+    "obtain": "遗迹/宝箱拾取",
+    "note": ""
+  },
+  {
+    "name": "近卫之盾",
+    "type": "盾",
+    "guard": 70,
+    "dur": "14",
+    "special": "高防低耐久",
+    "obtain": "海拉鲁城堡内",
+    "note": ""
+  },
+  {
+    "name": "英雄之盾",
+    "type": "盾",
+    "guard": 90,
+    "dur": "90",
+    "special": "",
+    "obtain": "传说宝箱（风之杖英雄传家盾）",
+    "note": "具体入手点待核实"
+  },
+  {
+    "name": "波克盾",
+    "type": "盾",
+    "guard": 3,
+    "dur": "5",
+    "special": "",
+    "obtain": "波克布林掉落",
+    "note": ""
+  },
+  {
+    "name": "尖刺波克盾",
+    "type": "盾",
+    "guard": 10,
+    "dur": "7",
+    "special": "",
+    "obtain": "高级波克布林掉落",
+    "note": ""
+  },
+  {
+    "name": "龙骨波克盾",
+    "type": "盾",
+    "guard": 25,
+    "dur": "8",
+    "special": "",
+    "obtain": "高级波克布林掉落",
+    "note": ""
+  },
+  {
+    "name": "蜥蜴盾",
+    "type": "盾",
+    "guard": 15,
+    "dur": "8",
+    "special": "",
+    "obtain": "蜥蜴战士掉落",
+    "note": ""
+  },
+  {
+    "name": "强化蜥蜴盾",
+    "type": "盾",
+    "guard": 22,
+    "dur": "12",
+    "special": "",
+    "obtain": "高级蜥蜴战士掉落",
+    "note": ""
+  },
+  {
+    "name": "钢铁蜥蜴盾",
+    "type": "盾",
+    "guard": 35,
+    "dur": "15",
+    "special": "",
+    "obtain": "精锐蜥蜴战士掉落",
+    "note": ""
+  },
+  {
+    "name": "守护者之盾",
+    "type": "盾",
+    "guard": 18,
+    "dur": "10",
+    "special": "",
+    "obtain": "小型守护者掉落",
+    "note": ""
+  },
+  {
+    "name": "守护者之盾+",
+    "type": "盾",
+    "guard": 30,
+    "dur": "13",
+    "special": "",
+    "obtain": "高级小型守护者掉落",
+    "note": ""
+  },
+  {
+    "name": "守护者之盾++",
+    "type": "盾",
+    "guard": 42,
+    "dur": "20",
+    "special": "",
+    "obtain": "最高级小型守护者掉落",
+    "note": ""
+  },
+  {
+    "name": "莱尼尔盾",
+    "type": "盾",
+    "guard": 30,
+    "dur": "12",
+    "special": "",
+    "obtain": "莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽王盾",
+    "type": "盾",
+    "guard": 44,
+    "dur": "15",
+    "special": "",
+    "obtain": "蓝鬃以上莱尼尔掉落",
+    "note": ""
+  },
+  {
+    "name": "兽神盾",
+    "type": "盾",
+    "guard": 62,
+    "dur": "20",
+    "special": "",
+    "obtain": "白鬃/金银莱尼尔掉落",
+    "note": ""
+  }
+]
