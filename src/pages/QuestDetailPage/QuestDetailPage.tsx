@@ -1,94 +1,142 @@
-import { useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Check, Plus, ScrollText, MapPin, User } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Check, MapPin, ScrollText, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { MOCK_MAIN_QUESTS, MOCK_SHRINE_QUESTS, MOCK_SIDE_QUESTS, Quest } from '@/data/quests';
+import { Separator } from '@/components/ui/separator';
+import { MOCK_MAIN_QUESTS, MOCK_SHRINE_QUESTS, MOCK_SIDE_QUESTS } from '@/data/quests';
 import { useProgress } from '@/hooks/use-progress';
+import { cn } from '@/lib/utils';
 
 export default function QuestDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { progress, toggleQuest } = useProgress();
+  const { isCollected, toggleItem, loaded } = useProgress();
 
-  const quest = useMemo(() => {
-    if (!id) return null;
-    return [...MOCK_MAIN_QUESTS, ...MOCK_SHRINE_QUESTS, ...MOCK_SIDE_QUESTS].find((q: Quest) => q.id === id) || null;
-  }, [id]);
+  const quest =
+    MOCK_MAIN_QUESTS.find((q) => String(q.id) === id) ||
+    MOCK_SHRINE_QUESTS.find((q) => String(q.id) === id) ||
+    MOCK_SIDE_QUESTS.find((q) => String(q.id) === id);
 
   if (!quest) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <p className="text-muted-foreground mb-4">没有找到这个任务，勇者可能记错了。</p>
-        <Button variant="outline" onClick={() => navigate('/quests')}>返回任务</Button>
+      <div className="max-w-3xl mx-auto px-4 py-12 text-center">
+        <p className="text-muted-foreground mb-4">未找到该任务</p>
+        <Button onClick={() => navigate(-1)} variant="secondary">
+          <ArrowLeft className="w-4 h-4 mr-2" /> 返回
+        </Button>
       </div>
     );
   }
 
-  const any = quest as any;
-  const done = progress.completedMainQuests.includes(quest.id) || progress.completedShrineQuests.includes(quest.id) || progress.completedSideQuests.includes(quest.id);
-  const section = MOCK_MAIN_QUESTS.includes(quest) ? '主线' : MOCK_SHRINE_QUESTS.includes(quest) ? '神庙挑战' : '支线';
+  const progressField =
+    quest.type === '主线' ? 'completedMainQuests'
+      : quest.type === '神庙挑战' ? 'completedShrineQuests'
+        : 'completedSideQuests';
+  const completed = loaded && isCollected(progressField as any, String(quest.id));
 
   return (
-    <div className="max-w-3xl mx-auto px-4 md:px-6 py-6 md:py-10">
-      <button onClick={() => navigate(-1)} className="text-muted-foreground hover:text-foreground text-sm mb-4 inline-flex items-center gap-1.5 transition-colors">
-        <ArrowLeft className="w-4 h-4" /> 任务攻略
-      </button>
+    <div className="max-w-4xl mx-auto px-4 md:px-6 py-4 md:py-8">
+      <div className="flex items-center gap-2 mb-4">
+        <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+        <div className="text-xs text-muted-foreground font-display tracking-wider">QUEST DETAIL</div>
+      </div>
 
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-        <div className="flex items-start gap-3 mb-5">
-          <div className={cn('w-12 h-12 rounded-xl flex items-center justify-center shrink-0', done ? 'bg-success/20 text-success' : 'bg-primary/10 text-primary')}>
-            {done ? <Check className="w-6 h-6" /> : <ScrollText className="w-6 h-6" />}
-          </div>
-          <div>
-            <h1 className="font-display text-2xl font-bold text-foreground leading-tight">{quest.title}</h1>
-            <div className="flex flex-wrap items-center gap-2 mt-2">
-              <Badge variant={section === '主线' ? 'default' : section === '神庙挑战' ? 'success' : 'outline'}>{section}</Badge>
-              {any.giver && (
-                <span className="text-xs text-muted-foreground inline-flex items-center gap-1">
-                  <User className="w-3 h-3" /> {any.giver}
-                </span>
-              )}
-              {any.location && (
-                <span className="text-xs text-muted-foreground inline-flex items-center gap-1">
-                  <MapPin className="w-3 h-3" /> {any.location}
-                </span>
-              )}
+      <Card className="border-border/60 bg-card/50 sheikah-glow mb-4">
+        <CardContent className="p-6 md:p-8">
+          <div className="flex items-start gap-3 mb-4">
+            <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0">
+              <ScrollText className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <Badge variant="outline" className="text-xs">{quest.type}</Badge>
+                {completed && (
+                  <Badge className="bg-success/20 text-success-foreground border-success/30 text-xs">
+                    <Check className="w-3 h-3 mr-1" /> 已完成
+                  </Badge>
+                )}
+              </div>
+              <h1 className="font-display text-2xl md:text-3xl font-bold tracking-wide">
+                {quest.name}
+              </h1>
             </div>
           </div>
+
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            {quest.description || (quest as any).hint || ''}
+          </p>
+
+          <Button
+            onClick={() => toggleItem(progressField as any, String(quest.id))}
+            variant={completed ? 'secondary' : 'default'}
+            size="sm"
+          >
+            <Check className="w-4 h-4 mr-1.5" />
+            {completed ? '已完成' : '标记完成'}
+          </Button>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="md:col-span-2 border-border/60 bg-card/50">
+          <CardContent className="p-5 md:p-6">
+            <h2 className="font-display text-lg font-semibold mb-4 text-primary">完成步骤</h2>
+            {quest.steps && quest.steps.length > 0 ? (
+              <ol className="space-y-3">
+                {quest.steps.map((step: string, i: number) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="w-6 h-6 rounded-full bg-primary/15 text-primary text-xs font-bold flex items-center justify-center shrink-0 font-display tabular-nums">
+                      {i + 1}
+                    </span>
+                    <span className="text-sm text-foreground/90 leading-relaxed pt-0.5">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="text-sm text-muted-foreground">暂无详细步骤，请参考任务描述。</p>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/60 bg-card/50 h-fit">
+          <CardContent className="p-5">
+            <h3 className="font-display text-sm font-semibold mb-3 text-muted-foreground tracking-wider">任务信息</h3>
+            <div className="space-y-3 text-sm">
+              {quest.region && (
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-primary shrink-0" />
+                  <span className="text-foreground/90">{quest.region}</span>
+                </div>
+              )}
+              {(quest as any).npc && (
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-accent shrink-0" />
+                  <span className="text-foreground/90">{(quest as any).npc}</span>
+                </div>
+              )}
+              <Separator className="my-2" />
+              {quest.reward ? (
+                <div>
+                  <div className="text-xs text-muted-foreground mb-1">任务奖励</div>
+                  <div className="text-accent">{quest.reward}</div>
+                </div>
+              ) : (
+                <div className="text-xs text-muted-foreground">暂无奖励信息</div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {quest.note && (
+        <div className={cn('mt-4 p-4 rounded-md bg-primary/5 border border-primary/20')}>
+          <div className="text-xs text-primary/80 font-display tracking-wider mb-1">备注</div>
+          <p className="text-sm text-foreground/90 leading-relaxed">{quest.note}</p>
         </div>
-
-        {any.objective && (
-          <div className="rounded-lg border border-border/40 bg-card/40 p-4 mb-4">
-            <h3 className="text-sm font-semibold text-primary mb-2">任务目标</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{any.objective}</p>
-          </div>
-        )}
-
-        {any.hint && (
-          <div className="rounded-lg border border-accent/30 bg-accent/5 p-4 mb-4">
-            <h3 className="text-sm font-semibold text-accent mb-2">攻略提示</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{any.hint}</p>
-          </div>
-        )}
-
-        {any.reward && (
-          <div className="rounded-lg border border-border/40 bg-card/40 p-4 mb-6">
-            <h3 className="text-sm font-semibold text-primary mb-2">任务奖励</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{any.reward}</p>
-          </div>
-        )}
-
-        <Button
-          variant={done ? 'default' : 'outline'}
-          className={cn('w-full', done && 'bg-success hover:bg-success/90 text-success-foreground')}
-          onClick={() => toggleQuest(quest.id)}
-        >
-          {done ? <><Check className="w-4 h-4" /> 已完成</> : <><Plus className="w-4 h-4" /> 标记完成</>}
-        </Button>
-      </motion.div>
+      )}
     </div>
   );
 }

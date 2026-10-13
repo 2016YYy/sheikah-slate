@@ -1,45 +1,72 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, BookOpen, Feather } from 'lucide-react';
+import { BookOpen, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MOCK_GUIDES, Guide } from '@/data/guides';
+import { MOCK_GUIDES } from '@/data/guides';
 
-const ICONS = [BookOpen, Feather, BookOpen, Feather, BookOpen, Feather];
+const CATEGORY_COLORS: Record<string, string> = {
+  新手开局: 'text-primary',
+  生存机制: 'text-primary',
+  探索解谜: 'text-accent',
+  战斗进阶: 'text-destructive',
+  资源赚钱: 'text-accent',
+  'DLC 指南': 'text-primary',
+};
 
 export default function GuidesPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-10">
-      <header className="mb-8">
-        <button onClick={() => navigate(-1)} className="text-muted-foreground hover:text-foreground text-sm mb-3 inline-flex items-center gap-1 transition-colors">
-          <ArrowLeft className="w-4 h-4" /> 返回
-        </button>
-        <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground">攻略手册</h1>
-        <p className="text-muted-foreground text-sm mt-1.5">古代希卡科技整理的海拉鲁生存指南，共 {MOCK_GUIDES.length} 册。</p>
-      </header>
+    <div className="max-w-6xl mx-auto px-4 md:px-6 py-4 md:py-8">
+      <div className="flex items-center gap-3 mb-4">
+        <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="md:hidden">
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+        <div>
+          <div className="font-display text-[10px] tracking-[0.3em] text-primary/70">GUIDES</div>
+          <h1 className="font-display text-2xl md:text-3xl font-bold tracking-wide">新手指南</h1>
+        </div>
+      </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {MOCK_GUIDES.map((guide: Guide, i: number) => {
-          const Icon = ICONS[i % ICONS.length];
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+        {MOCK_GUIDES.map((guide, i) => {
+          const color = CATEGORY_COLORS[guide.category] || 'text-primary';
           return (
-            <motion.button
+            <motion.div
               key={guide.id}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: i * 0.05 }}
-              onClick={() => navigate(`/guides/${guide.id}`)}
-              className="text-left rounded-xl border border-border/60 bg-card/50 p-5 hover:bg-card/80 hover:border-primary/40 transition-all group sheikah-glow hover:sheikah-glow-strong"
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              whileHover={{ y: -3, transition: { duration: 0.2 } }}
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
-                  <Icon className="w-5 h-5" />
-                </div>
-                <Badge variant="secondary" className="text-[10px]">{guide.sections} 章节</Badge>
-              </div>
-              <h2 className="font-semibold text-foreground group-hover:text-primary transition-colors">{guide.title}</h2>
-              <p className="text-sm text-muted-foreground mt-2 line-clamp-2 leading-relaxed">{guide.summary}</p>
-            </motion.button>
+              <Card
+                className="cursor-pointer border-border/60 bg-card/50 hover:bg-card/80 hover:border-primary/40 transition-all sheikah-glow group h-full"
+                onClick={() => navigate(`/guides/${guide.id}`)}
+              >
+                <CardContent className="p-5 md:p-6">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className={`p-3 rounded-lg bg-primary/10 ${color} group-hover:scale-110 transition-transform`}>
+                      <BookOpen className="w-5 h-5" />
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground/50 group-hover:text-primary transition-colors" />
+                  </div>
+                  <h3 className="font-display font-semibold text-base md:text-lg mb-1 leading-snug">
+                    {guide.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed mb-3">
+                    {guide.description}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="text-[10px] h-4.5">{guide.category}</Badge>
+                    <span className="text-[10px] text-muted-foreground font-display">
+                      {guide.chapters.length} 章 · {Math.max(1, Math.round(guide.content.length / 300))} 分钟读完
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           );
         })}
       </div>
