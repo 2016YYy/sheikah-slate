@@ -1,138 +1,220 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Github, RefreshCw, ShieldAlert, ExternalLink } from 'lucide-react';
+import { Github, RefreshCw, Shield, Database, Heart, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 
 const APP_VERSION = 'v1.0.0';
-const REPO = '2016YYy/sheikah-slate';
-const RELEASE_API = `https://api.github.com/repos/${REPO}/releases/latest`;
-
-type UpdateState =
-  | { status: 'idle' }
-  | { status: 'checking' }
-  | { status: 'latest' }
-  | { status: 'update'; version: string; notes: string; url: string }
-  | { status: 'error' };
+const REPO_OWNER = '2016YYy';
+const REPO_NAME = 'sheikah-slate';
+const REPO_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}`;
 
 export default function AboutPage() {
-  const navigate = useNavigate();
-  const [update, setUpdate] = useState<UpdateState>({ status: 'idle' });
+  const [checking, setChecking] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState<{ hasUpdate: boolean; latest: string; body?: string } | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const checkUpdate = async () => {
-    setUpdate({ status: 'checking' });
+  const checkForUpdate = async () => {
+    setChecking(true);
     try {
-      const res = await fetch(RELEASE_API, { cache: 'no-store' });
-      if (!res.ok) throw new Error('request failed');
-      const data = await res.json();
-      const latest = (data.tag_name || '').replace(/^v/, '');
-      const current = APP_VERSION.replace(/^v/, '');
-      if (latest && latest !== current) {
-        setUpdate({
-          status: 'update',
-          version: data.tag_name,
-          notes: data.body || '',
-          url: data.html_url || `https://github.com/${REPO}/releases`,
-        });
-      } else {
-        setUpdate({ status: 'latest' });
+      const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest`, {
+        headers: { Accept: 'application/vnd.github+json' },
+      });
+      if (!res.ok) {
+        setUpdateInfo({ hasUpdate: false, latest: APP_VERSION });
+        setDialogOpen(true);
+        return;
       }
+      const data = await res.json();
+      const latest = data.tag_name || '';
+      const currentNum = parseVersion(APP_VERSION);
+      const latestNum = parseVersion(latest);
+      setUpdateInfo({
+        hasUpdate: latestNum > currentNum,
+        latest: latest || APP_VERSION,
+        body: data.body || '',
+      });
+      setDialogOpen(true);
     } catch {
-      setUpdate({ status: 'error' });
+      setUpdateInfo({ hasUpdate: false, latest: APP_VERSION });
+      setDialogOpen(true);
+    } finally {
+      setChecking(false);
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      checkUpdate();
-    }, 1200);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <div className="max-w-3xl mx-auto px-4 md:px-6 py-6 md:py-10">
-      <header className="mb-6">
-        <button onClick={() => navigate(-1)} className="text-muted-foreground hover:text-foreground text-sm mb-3 inline-flex items-center gap-1 transition-colors">
-          <ArrowLeft className="w-4 h-4" /> 返回
-        </button>
-        <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground">关于希卡石板</h1>
-      </header>
-
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-4">
-        <div className="text-center py-6">
-          <div className="w-20 h-24 mx-auto mb-4 relative">
-            <svg viewBox="0 0 80 96" className="w-20 h-24 text-primary drop-shadow-[0_0_18px_rgba(34_211_238_/_0.5)]">
-              <path d="M40 4L76 24v48L40 92 4 72V24L40 4z" fill="none" stroke="currentColor" strokeWidth="2" />
-              <circle cx="40" cy="48" r="9" fill="currentColor" />
-              <circle cx="40" cy="48" r="16" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.4" />
-            </svg>
-          </div>
-          <h2 className="font-display text-xl font-bold text-foreground">希卡石板</h2>
-          <p className="text-sm text-primary tracking-[0.3em] font-display">SHEIKAH SLATE</p>
-          <p className="text-xs text-muted-foreground mt-2">版本 {APP_VERSION} · 完全离线可用</p>
+    <div className="max-w-3xl mx-auto px-4 md:px-6 py-4 md:py-8">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center py-6 md:py-10"
+      >
+        <div className="inline-flex items-center justify-center w-20 h-24 mb-5">
+          <svg viewBox="0 0 32 36" className="w-20 h-24 text-primary drop-shadow-[0_0_12px_rgba(34_211_238_/_0.5)]">
+            <path d="M16 0L31 9v18L16 36 1 27V9L16 0z" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="16" cy="18" r="4" fill="currentColor" />
+            <circle cx="16" cy="18" r="7" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.5" />
+          </svg>
         </div>
+        <h1 className="font-display text-3xl font-bold tracking-wide mb-2">希卡石板</h1>
+        <p className="font-display text-xs tracking-[0.35em] text-primary/80 mb-3">SHEIKAH SLATE</p>
+        <p className="text-muted-foreground max-w-md mx-auto text-sm leading-relaxed mb-6">
+          塞尔达传说：旷野之息 — 完全离线的海拉鲁图鉴数据库与攻略助手
+        </p>
 
-        <div className="rounded-lg border border-border/40 bg-card/40 p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <RefreshCw className="w-4 h-4 text-primary" /> 检查更新
-            </h3>
-            <Badge variant={update.status === 'update' ? 'destructive' : update.status === 'latest' ? 'success' : 'outline'} className="text-[10px]">
-              {update.status === 'checking' && '检查中…'}
-              {update.status === 'latest' && '已是最新'}
-              {update.status === 'update' && '发现新版本'}
-              {update.status === 'error' && '离线模式'}
-              {update.status === 'idle' && '未检查'}
-            </Badge>
-          </div>
-          {update.status === 'checking' && <p className="text-xs text-muted-foreground">正在连接希卡塔…</p>}
-          {update.status === 'error' && (
-            <p className="text-xs text-muted-foreground">当前处于离线状态，无法检查更新。离线模式不受影响。</p>
-          )}
-          {update.status === 'latest' && <p className="text-xs text-muted-foreground">已经是最新版本，勇者无需担心。</p>}
-          {update.status === 'update' && (
-            <div>
-              <p className="text-sm text-foreground mb-1">发现新版本 {update.version}</p>
-              <p className="text-xs text-muted-foreground whitespace-pre-line mb-3">{update.notes}</p>
-              <Button asChild size="sm" className="gap-1.5">
-                <a href={update.url} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="w-3.5 h-3.5" /> 前往下载
-                </a>
-              </Button>
-            </div>
-          )}
-          <Button variant="outline" size="sm" className="mt-3" onClick={checkUpdate} disabled={update.status === 'checking'}>
-            <RefreshCw className={cn('w-3.5 h-3.5', update.status === 'checking' && 'animate-spin')} /> 手动检查
+        <div className="flex items-center justify-center gap-3 flex-wrap mb-8">
+          <Badge variant="outline" className="font-display">{APP_VERSION}</Badge>
+          <Button variant="secondary" size="sm" onClick={checkForUpdate} disabled={checking}>
+            <RefreshCw className={`w-4 h-4 mr-1.5 ${checking ? 'animate-spin' : ''}`} />
+            {checking ? '检查中...' : '检查更新'}
           </Button>
-        </div>
-
-        <div className="rounded-lg border border-border/40 bg-card/40 p-4">
-          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2">
-            <Github className="w-4 h-4 text-primary" /> 开源项目
-          </h3>
-          <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-            本项目开源于 GitHub，使用 MIT 许可证。欢迎提交 Issue 与建议。
-          </p>
-          <Button asChild variant="outline" size="sm" className="gap-1.5">
-            <a href={`https://github.com/${REPO}`} target="_blank" rel="noopener noreferrer">
-              <Github className="w-3.5 h-3.5" /> 访问仓库
+          <Button variant="secondary" size="sm" asChild>
+            <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
+              <Github className="w-4 h-4 mr-1.5" /> GitHub
             </a>
           </Button>
         </div>
-
-        <div className="rounded-lg border border-warning/30 bg-warning/5 p-4">
-          <h3 className="text-sm font-semibold text-warning flex items-center gap-2 mb-2">
-            <ShieldAlert className="w-4 h-4" /> 免责声明
-          </h3>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            本项目为粉丝自制的非商业学习交流工具（Fan-made / Unofficial），与任天堂无任何关联，未经任天堂认可。
-            《塞尔达传说》《旷野之息》（The Legend of Zelda: Breath of the Wild）等商标与游戏内所有素材（名称、图像、地图、角色等）版权归任天堂及其版权所有者所有。
-            本项目数据基于网络公开资料整理，仅供个人学习交流使用，请支持正版游戏。如涉及侵权请告知，将及时删除相关内容。
-          </p>
-        </div>
       </motion.div>
+
+      <div className="space-y-4">
+        <Card className="border-border/60 bg-card/50">
+          <CardContent className="p-5">
+            <h2 className="font-display text-base font-semibold mb-3 flex items-center gap-2">
+              <Database className="w-4 h-4 text-primary" /> 数据内容
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+              <DataItem label="武器图鉴" value="131 件" />
+              <DataItem label="防具图鉴" value="89 件" />
+              <DataItem label="怪物图鉴" value="68 种" />
+              <DataItem label="料理食谱" value="94 道" />
+              <DataItem label="材料图鉴" value="100 种" />
+              <DataItem label="神庙" value="120 座" />
+              <DataItem label="高塔 / 回忆" value="15 + 14" />
+              <DataItem label="任务攻略" value="133 项" />
+              <DataItem label="攻略手册" value="6 册" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/60 bg-card/50">
+          <CardContent className="p-5">
+            <h2 className="font-display text-base font-semibold mb-3 flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-accent" /> 功能特性
+            </h2>
+            <ul className="space-y-2 text-sm text-foreground/85 leading-relaxed">
+              <li>· 完全离线运行，无需联网即可查阅全部数据</li>
+              <li>· 打勾记录收集进度，localStorage 本地持久化</li>
+              <li>· 分类筛选、关键词搜索、收藏夹</li>
+              <li>· 神庙 / 高塔 / 回忆 / 任务 / 克洛格全进度统计</li>
+              <li>· 应用内检查更新（基于 GitHub Releases）</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/60 bg-card/50">
+          <CardContent className="p-5">
+            <h2 className="font-display text-base font-semibold mb-3 flex items-center gap-2">
+              <Shield className="w-4 h-4 text-success" /> 免责声明
+            </h2>
+            <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
+              <p>
+                本项目为<b className="text-foreground">粉丝自制的非商业学习交流工具</b>（Fan-made / Unofficial），
+                与任天堂（Nintendo）无任何关联，未经任天堂认可。
+              </p>
+              <p>
+                《塞尔达传说》《旷野之息》（The Legend of Zelda: Breath of the Wild）等商标，
+                以及游戏内的名称、图像、地图、角色、音乐等所有素材的版权，
+                均归任天堂及其版权所有者所有。
+              </p>
+              <p>
+                本应用内的攻略与图鉴数据基于网络公开资料自行整理，仅供参考；
+                内容仅供个人学习交流使用，请支持正版游戏。
+              </p>
+              <p>
+                如本应用内容涉及侵权，请联系维护者，我们将及时删除相关内容。
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/60 bg-card/50">
+          <CardContent className="p-5">
+            <h2 className="font-display text-base font-semibold mb-3 flex items-center gap-2">
+              <Heart className="w-4 h-4 text-accent" /> 关于
+            </h2>
+            <div className="space-y-2 text-sm text-muted-foreground leading-relaxed">
+              <p>
+                希卡石板（Sheikah Slate）是一款面向《塞尔达传说：旷野之息》玩家的离线图鉴与攻略工具，
+                灵感源自游戏中的希卡石板。愿它陪伴你在海拉鲁的每一次冒险。
+              </p>
+              <Separator className="my-3" />
+              <p className="text-xs">
+                开源仓库：<Link to={REPO_URL} className="text-primary hover:underline">{REPO_URL}</Link>
+                <br />
+                版本 {APP_VERSION} · MIT License · 数据基于公开资料整理
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="font-display">检查更新</DialogTitle>
+            <DialogDescription>
+              {checking ? '正在检查最新版本...' : updateInfo?.hasUpdate ? '发现新版本！' : '当前已是最新版本'}
+            </DialogDescription>
+          </DialogHeader>
+          {updateInfo && !checking && (
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3">
+                <span className="text-muted-foreground">当前版本</span>
+                <span className="font-display font-semibold">{APP_VERSION}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-lg bg-primary/10 border border-primary/20 p-3">
+                <span className="text-primary">最新版本</span>
+                <span className="font-display font-semibold text-primary">{updateInfo.latest}</span>
+              </div>
+              {updateInfo.body && (
+                <div className="max-h-40 overflow-y-auto rounded-lg bg-muted/30 p-3 text-xs text-muted-foreground whitespace-pre-wrap">
+                  {updateInfo.body}
+                </div>
+              )}
+            </div>
+          )}
+          <DialogFooter className="gap-2">
+            <Button variant="secondary" onClick={() => setDialogOpen(false)}>关闭</Button>
+            {updateInfo?.hasUpdate && (
+              <Button asChild>
+                <a href={REPO_URL} target="_blank" rel="noopener noreferrer">前往 GitHub 下载</a>
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+function parseVersion(v: string): number[] {
+  return v
+    .replace(/^v/i, '')
+    .split('.')
+    .map((n) => parseInt(n, 10) || 0);
+}
+
+function DataItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg bg-muted/30 p-2.5">
+      <div className="text-[11px] text-muted-foreground">{label}</div>
+      <div className="font-display font-semibold text-sm">{value}</div>
     </div>
   );
 }
