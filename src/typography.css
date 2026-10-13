@@ -1,0 +1,141 @@
+/* 希卡石板主题排版 */
+.prose-sheikah {
+  color: hsl(42 35% 88%);
+  max-width: none;
+}
+
+.prose-sheikah h1,
+.prose-sheikah h2,
+.prose-sheikah h3,
+.prose-sheikah h4 {
+  color: hsl(42 35% 92%);
+  font-weight: 600;
+  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.prose-sheikah h1 { font-size: 1.875rem; margin-top: 2rem; margin-bottom: 1rem; }
+.prose-sheikah h2 { font-size: 1.5rem; margin-top: 1.75rem; margin-bottom: 0.75rem; border-bottom: 1px solid hsl(195 12% 22%); padding-bottom: 0.5rem; }
+.prose-sheikah h3 { font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: hsl(185 85% 65%); }
+.prose-sheikah h4 { font-size: 1.125rem; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+
+.prose-sheikah p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.75;
+}
+
+.prose-sheikah a {
+  color: hsl(185 85% 65%);
+  text-decoration: underline;
+  text-decoration-color: hsl(185 85% 55% / 0.4);
+  text-underline-offset: 3px;
+}
+
+.prose-sheikah a:hover {
+  color: hsl(185 85% 75%);
+}
+
+.prose-sheikah strong {
+  color: hsl(28 90% 68%);
+  font-weight: 600;
+}
+
+.prose-sheikah blockquote {
+  border-left: 3px solid hsl(185 85% 55%);
+  background: hsl(185 30% 12% / 0.3);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  color: hsl(42 25% 80%);
+  font-style: normal;
+  border-radius: 0 4px 4px 0;
+}
+
+.prose-sheikah blockquote p {
+  margin: 0;
+}
+
+.prose-sheikah code {
+  background: hsl(200 15% 16%);
+  color: hsl(185 85% 70%);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.prose-sheikah pre {
+  background: hsl(200 15% 10%);
+  border: 1px solid hsl(195 12% 22%);
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.prose-sheikah pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.875rem;
+  color: hsl(42 35% 85%);
+}
+
+.prose-sheikah ul,
+.prose-sheikah ol {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.prose-sheikah li {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+  line-height: 1.65;
+}
+
+.prose-sheikah ul li::marker {
+  color: hsl(185 85% 55%);
+}
+
+.prose-sheikah ol li::marker {
+  color: hsl(28 90% 58%);
+  font-weight: 600;
+}
+
+.prose-sheikah table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.prose-sheikah th {
+  background: hsl(200 15% 16%);
+  color: hsl(185 85% 75%);
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 2px solid hsl(185 40% 30%);
+  font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.prose-sheikah td {
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid hsl(195 12% 22%);
+}
+
+.prose-sheikah tr:hover td {
+  background: hsl(200 15% 14% / 0.5);
+}
+
+.prose-sheikah hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, hsl(185 40% 30% / 0.6), transparent);
+  margin: 2rem 0;
+}
+
+.prose-sheikah img {
+  border-radius: 6px;
+  border: 1px solid hsl(195 12% 22%);
+}
