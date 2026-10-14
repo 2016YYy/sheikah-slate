@@ -2,7 +2,13 @@ name: Build Android APK
 
 on:
   # 手动触发：仓库 Actions 页点击「Run workflow」
+  # 填 release_tag 可把 APK 挂到对应 Release；留空则不挂载
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: '要挂载 APK 的 Release 标签（如 v1.0.0），留空则不挂载'
+        required: false
+        default: ''
   # 发版触发：推送 v* 标签（如 v1.0.1）时自动出包并挂到对应 Release
   push:
     tags: ['v*']
@@ -55,11 +61,12 @@ jobs:
           path: android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
 
-      - name: Attach APK to Release (on tag)
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Attach APK to Release
+        if: startsWith(github.ref, 'refs/tags/') || inputs.release_tag != ''
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
         run: |
           cd android
-          gh release upload "${GITHUB_REF_NAME}" \
+          gh release upload "${RELEASE_TAG}" \
             app/build/outputs/apk/debug/app-debug.apk --clobber
