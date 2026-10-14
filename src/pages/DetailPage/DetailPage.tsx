@@ -60,13 +60,7 @@ export default function DetailPage() {
           <Button variant="ghost" size="icon" onClick={handleShare} aria-label="分享">
             <Share2 className="w-4 h-4" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => toggleFavorite(cat, String(item.id))}
-            aria-label={favorited ? '取消收藏' : '收藏'}
-            className={favorited ? 'text-accent' : ''}
-          >
+          <Button variant="ghost" size="icon" onClick={() => toggleFavorite(cat, String(item.id))} aria-label={favorited ? '取消收藏' : '收藏'} className={favorited ? 'text-accent' : ''}>
             <Heart className={cn('w-4 h-4', favorited && 'fill-current')} />
           </Button>
         </div>
@@ -78,32 +72,15 @@ export default function DetailPage() {
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-lg bg-muted/30 border border-border/50 flex items-center justify-center shrink-0">
               <DetailIcon category={cat} />
             </div>
-
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <Badge variant="outline" className="text-xs font-display">
-                  {getTypeLabel(item, cat)}
-                </Badge>
-                {collected && (
-                  <Badge className="bg-success/20 text-success-foreground border-success/30 text-xs">
-                    <Check className="w-3 h-3 mr-1" /> 已收集
-                  </Badge>
-                )}
+                <Badge variant="outline" className="text-xs font-display">{getTypeLabel(item, cat)}</Badge>
+                {collected && <Badge className="bg-success/20 text-success-foreground border-success/30 text-xs"><Check className="w-3 h-3 mr-1" /> 已收集</Badge>}
               </div>
-              <h1 className="font-display text-2xl md:text-3xl font-bold mb-2 tracking-wide">
-                {item.name}
-              </h1>
-              <p className="text-muted-foreground text-sm md:text-base">
-                {getSubtitle(item, cat)}
-              </p>
-
+              <h1 className="font-display text-2xl md:text-3xl font-bold mb-2 tracking-wide">{item.name}</h1>
+              <p className="text-muted-foreground text-sm md:text-base">{getSubtitle(item, cat)}</p>
               <div className="mt-4 flex items-center gap-3">
-                <Button
-                  onClick={() => toggleItem(progressField as any, String(item.id))}
-                  className={collected ? '' : 'bg-primary hover:bg-primary/90'}
-                  variant={collected ? 'secondary' : 'default'}
-                  size="sm"
-                >
+                <Button onClick={() => toggleItem(progressField as any, String(item.id))} className={collected ? '' : 'bg-primary hover:bg-primary/90'} variant={collected ? 'secondary' : 'default'} size="sm">
                   <Check className="w-4 h-4 mr-1.5" />
                   {collected ? '已收集' : '标记收集'}
                 </Button>
@@ -132,7 +109,6 @@ export default function DetailPage() {
                 {renderDetailField('获取方式', item.obtain || '—')}
                 {renderDetailField('升级材料', item.upgrade, cat === 'armors' || cat === 'weapons')}
                 {renderDetailField('触发提示', item.hint, cat === 'shrines' && !!item.hint)}
-
                 {item.note && (
                   <div className="mt-4 p-4 rounded-md bg-primary/5 border border-primary/20">
                     <div className="text-xs text-primary/80 font-display tracking-wider mb-1">备注</div>
@@ -146,9 +122,7 @@ export default function DetailPage() {
 
         <Card className="border-border/60 bg-card/50 h-fit">
           <CardContent className="p-5">
-            <h3 className="font-display text-sm font-semibold mb-3 text-muted-foreground tracking-wider">
-              快速信息
-            </h3>
+            <h3 className="font-display text-sm font-semibold mb-3 text-muted-foreground tracking-wider">快速信息</h3>
             <div className="space-y-3 text-sm">
               <InfoItem label="分类" value={getTypeLabel(item, cat)} />
               <InfoItem label="收集状态" value={collected ? '已收集' : '未收集'} valueClass={collected ? 'text-success' : 'text-muted-foreground'} />
@@ -173,9 +147,7 @@ function getItemData(cat: CategoryKey, id: string) {
     return { item, progressField: 'collectedArmors', label: '防具图鉴' };
   }
   if (cat === 'shrines') {
-    const item = MOCK_SHRINES.find((s) => String(s.id) === id) ||
-      MOCK_TOWERS.find((t) => String(t.id) === id) ||
-      MOCK_MEMORIES.find((m) => String(m.id) === id);
+    const item = MOCK_SHRINES.find((s) => String(s.id) === id) || MOCK_TOWERS.find((t) => String(t.id) === id) || MOCK_MEMORIES.find((m) => String(m.id) === id);
     return { item, progressField: 'completedShrines', label: '神庙探索' };
   }
   if (cat === 'monsters') {
@@ -230,24 +202,15 @@ function StatRow({ item, cat }: { item: any; cat: CategoryKey }) {
   if (cat === 'weapons') {
     return (
       <div className="flex items-center gap-4 text-sm">
-        <div className="text-center">
-          <div className="font-display text-lg font-bold text-accent tabular-nums">{item.atk || '—'}</div>
-          <div className="text-[10px] text-muted-foreground">攻击</div>
-        </div>
+        <div className="text-center"><div className="font-display text-lg font-bold text-accent tabular-nums">{item.atk || '—'}</div><div className="text-[10px] text-muted-foreground">攻击</div></div>
         <div className="w-px h-8 bg-border/50" />
-        <div className="text-center">
-          <div className="font-display text-lg font-bold text-primary tabular-nums">{item.dur || '—'}</div>
-          <div className="text-[10px] text-muted-foreground">耐久</div>
-        </div>
+        <div className="text-center"><div className="font-display text-lg font-bold text-primary tabular-nums">{item.dur || '—'}</div><div className="text-[10px] text-muted-foreground">耐久</div></div>
       </div>
     );
   }
   if (cat === 'armors') {
     return (
-      <div className="text-center">
-        <div className="font-display text-2xl font-bold text-accent tabular-nums">{item.def}</div>
-        <div className="text-[10px] text-muted-foreground">基础防御</div>
-      </div>
+      <div className="text-center"><div className="font-display text-2xl font-bold text-accent tabular-nums">{item.def}</div><div className="text-[10px] text-muted-foreground">基础防御</div></div>
     );
   }
   return null;
