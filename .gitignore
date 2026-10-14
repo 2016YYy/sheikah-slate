@@ -17,3 +17,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Capacitor Android（本地工程不入库，由 CI `npx cap add android` 重新生成）
+android
