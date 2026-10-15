@@ -50,14 +50,12 @@ jobs:
 
       - name: Set version from tag
         run: |
-          # 从 git 标签提取版本（如 v1.0.0 -> 1.0.0），无标签时使用 package.json
           TAG="${GITHUB_REF_NAME}"
           if [[ "$TAG" == v* ]]; then
             VERSION="${TAG#v}"
           else
             VERSION=$(node -p "require('./package.json').version")
           fi
-          # versionCode: major*10000 + minor*100 + patch (1.0.0 -> 10000)
           VERSION_CODE=$(echo "$VERSION" | awk -F. '{print $1*10000 + $2*100 + $3}')
           echo "versionName=$VERSION versionCode=$VERSION_CODE"
           sed -i "s/versionCode [0-9]*/versionCode ${VERSION_CODE}/" android/app/build.gradle
@@ -66,7 +64,6 @@ jobs:
 
       - name: Inject REQUEST_INSTALL_PACKAGES permission
         run: |
-          # 应用内更新安装 APK 所需权限，cap add 生成的 manifest 默认不含
           MANIFEST=android/app/src/main/AndroidManifest.xml
           if ! grep -q 'REQUEST_INSTALL_PACKAGES' "$MANIFEST"; then
             sed -i 's|</manifest>|<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />\n</manifest>|' "$MANIFEST"
@@ -74,11 +71,19 @@ jobs:
           echo "=== Updated AndroidManifest.xml permissions ==="
           grep "uses-permission" "$MANIFEST"
 
-      - name: Inject signing config into build.gradle
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+      - name: Prepare signing (keystore + build.gradle)
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           BUILD_GRADLE=android/app/build.gradle
-          if ! grep -q "signingConfigs" "$BUILD_GRADLE"; then
+          # 仅当 keystore secret 非空时才配置签名
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "Keystore secret found, configuring release signing..."
+            echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
+            # 注入 signingConfigs 到 build.gradle
             python3 - "$BUILD_GRADLE" << 'PYEOF'
           import sys
           path = sys.argv[1]
@@ -94,36 +99,31 @@ jobs:
               "        }\n"
               "    }\n"
           )
-          content = content.replace("    buildTypes {", signing + "    buildTypes {")
-          content = content.replace(
-              "            minifyEnabled false",
-              "            minifyEnabled false\n            signingConfig signingConfigs.release"
-          )
+          if "signingConfigs" not in content:
+              content = content.replace("    buildTypes {", signing + "    buildTypes {")
+              content = content.replace(
+                  "            minifyEnabled false",
+                  "            minifyEnabled false\n            signingConfig signingConfigs.release"
+              )
           with open(path, "w") as f:
               f.write(content)
           PYEOF
+            echo "=== signing config injected ==="
+            grep -A2 "signingConfigs" "$BUILD_GRADLE" | head -6
+          else
+            echo "No keystore secret configured, will build debug APK"
           fi
-          echo "=== signing config injected ==="
-          grep -A2 "signingConfigs" "$BUILD_GRADLE" | head -6
 
-      - name: Decode keystore (release signing)
-        id: keystore
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
-        run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
-          echo "keystore_decoded=true" >> $GITHUB_OUTPUT
-          echo "Release keystore decoded"
-
-      - name: Build APK (release if keystore available, else debug)
+      - name: Build APK
         env:
-          KEYSTORE_PATH: ${{ steps.keystore.outputs.keystore_decoded == 'true' && 'app/release.keystore' || '' }}
+          KEYSTORE_PATH: app/release.keystore
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           cd android
           chmod +x gradlew
-          if [ -f app/release.keystore ]; then
+          if [ -s app/release.keystore ]; then
             echo "Building release APK..."
             ./gradlew assembleRelease
           else
