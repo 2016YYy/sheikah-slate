@@ -2,6 +2,13 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# TypeScript build info
+*.tsbuildinfo
+
+# tsconfig.node.json 编译 vite.config.ts 产生的产物
+vite.config.d.ts
+vite.config.js
 .env
 .env.*
 !.env.example
@@ -20,3 +27,6 @@ pnpm-debug.log*
 
 # Capacitor Android（本地工程不入库，由 CI `npx cap add android` 重新生成）
 android
+
+# 由 scripts/gen_data.py 从 data/*.json 生成的 TS 数据模块，不入库
+src/data/
