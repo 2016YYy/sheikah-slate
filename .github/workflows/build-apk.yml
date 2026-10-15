@@ -48,6 +48,32 @@ jobs:
           npx cap add android
           npx cap sync android
 
+      - name: Set version from tag
+        run: |
+          # 从 git 标签提取版本（如 v1.0.0 -> 1.0.0），无标签时使用 package.json
+          TAG="${GITHUB_REF_NAME}"
+          if [[ "$TAG" == v* ]]; then
+            VERSION="${TAG#v}"
+          else
+            VERSION=$(node -p "require('./package.json').version")
+          fi
+          # versionCode: major*10000 + minor*100 + patch (1.0.0 -> 10000)
+          VERSION_CODE=$(echo "$VERSION" | awk -F. '{print $1*10000 + $2*100 + $3}')
+          echo "versionName=$VERSION versionCode=$VERSION_CODE"
+          sed -i "s/versionCode [0-9]*/versionCode ${VERSION_CODE}/" android/app/build.gradle
+          sed -i "s/versionName \".*\"/versionName \"${VERSION}\"/" android/app/build.gradle
+          grep -E "versionCode|versionName" android/app/build.gradle
+
+      - name: Inject REQUEST_INSTALL_PACKAGES permission
+        run: |
+          # 应用内更新安装 APK 所需权限，cap add 生成的 manifest 默认不含
+          MANIFEST=android/app/src/main/AndroidManifest.xml
+          if ! grep -q 'REQUEST_INSTALL_PACKAGES' "$MANIFEST"; then
+            sed -i 's|</manifest>|<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />\n</manifest>|' "$MANIFEST"
+          fi
+          echo "=== Updated AndroidManifest.xml permissions ==="
+          grep "uses-permission" "$MANIFEST"
+
       - name: Build debug APK
         run: |
           cd android
