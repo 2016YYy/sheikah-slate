@@ -7,14 +7,21 @@ import './tailwind-theme.css';
 import './typography.css';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { UpdateProvider } from '@/hooks/use-update';
+import { UpdateProgressBar } from '@/components/UpdateProgressBar';
+import { CommandPalette } from '@/components/CommandPalette';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <TooltipProvider delayDuration={200}>
-        <App />
-        <Toaster position="top-center" richColors closeButton />
-      </TooltipProvider>
+      <UpdateProvider>
+        <TooltipProvider delayDuration={200}>
+          <UpdateProgressBar />
+          <CommandPalette />
+          <App />
+          <Toaster position="top-center" richColors closeButton />
+        </TooltipProvider>
+      </UpdateProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Sword, Shirt, Mountain, ScrollText, Flame, Skull, Sparkles, Map, BookOpen } from 'lucide-react';
+import { Sword, Shirt, Mountain, ScrollText, Flame, Skull, Sparkles, Map, BookOpen, Search } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -59,6 +59,16 @@ export default function HomePage() {
         </div>
         <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground tracking-wide mb-3">海拉鲁图鉴数据库</h1>
         <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto">武器 · 防具 · 神庙 · 任务 · 料理 · 怪物 — 塞尔达传说：旷野之息全资源离线查阅工具</p>
+        <button
+          onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
+          className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border/60 bg-card/50 text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground transition-colors group"
+        >
+          <Search className="w-4 h-4" />
+          <span>搜索图鉴...</span>
+          <kbd className="ml-2 hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border border-border/60 bg-muted/50 text-[10px] font-display">
+            ⌘K
+          </kbd>
+        </button>
       </motion.section>
 
       <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>

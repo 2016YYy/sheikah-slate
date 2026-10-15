@@ -1,12 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Github, RefreshCw, Shield, Database, Heart, BookOpen } from 'lucide-react';
+import {
+  Github,
+  RefreshCw,
+  Shield,
+  Database,
+  Heart,
+  BookOpen,
+  Download,
+  CheckCircle2,
+  ExternalLink,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Progress } from '@/components/ui/progress';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { useUpdate, formatBytes } from '@/hooks/use-update';
 
 const APP_VERSION = 'v1.0.0';
 const REPO_OWNER = '2016YYy';
@@ -14,38 +33,31 @@ const REPO_NAME = 'sheikah-slate';
 const REPO_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}`;
 
 export default function AboutPage() {
-  const [checking, setChecking] = useState(false);
-  const [updateInfo, setUpdateInfo] = useState<{ hasUpdate: boolean; latest: string; body?: string } | null>(null);
+  const { updateInfo, download, isAndroid, checkForUpdate, startDownload, cancelDownload, installUpdate } =
+    useUpdate();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const checkForUpdate = async () => {
-    setChecking(true);
-    try {
-      const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest`, {
-        headers: { Accept: 'application/vnd.github+json' },
-      });
-      if (!res.ok) {
-        setUpdateInfo({ hasUpdate: false, latest: APP_VERSION });
-        setDialogOpen(true);
-        return;
-      }
-      const data = await res.json();
-      const latest = data.tag_name || '';
-      const currentNum = parseVersion(APP_VERSION);
-      const latestNum = parseVersion(latest);
-      setUpdateInfo({
-        hasUpdate: latestNum > currentNum,
-        latest: latest || APP_VERSION,
-        body: data.body || '',
-      });
-      setDialogOpen(true);
-    } catch {
-      setUpdateInfo({ hasUpdate: false, latest: APP_VERSION });
-      setDialogOpen(true);
-    } finally {
-      setChecking(false);
+  // 自动检查更新（仅在进入关于页时）
+  useEffect(() => {
+    if (!updateInfo) {
+      checkForUpdate();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleCheck = () => {
+    setDialogOpen(true);
+    checkForUpdate();
+  };
+
+  const handleDownload = () => {
+    if (updateInfo?.apkAsset?.downloadUrl) {
+      startDownload(updateInfo.apkAsset.downloadUrl);
     }
   };
+
+  const downloading = download.status === 'downloading';
+  const downloadDone = download.status === 'done';
 
   return (
     <div className="max-w-3xl mx-auto px-4 md:px-6 py-4 md:py-8">
@@ -69,10 +81,12 @@ export default function AboutPage() {
         </p>
 
         <div className="flex items-center justify-center gap-3 flex-wrap mb-8">
-          <Badge variant="outline" className="font-display">{APP_VERSION}</Badge>
-          <Button variant="secondary" size="sm" onClick={checkForUpdate} disabled={checking}>
-            <RefreshCw className={`w-4 h-4 mr-1.5 ${checking ? 'animate-spin' : ''}`} />
-            {checking ? '检查中...' : '检查更新'}
+          <Badge variant="outline" className="font-display">
+            {APP_VERSION}
+          </Badge>
+          <Button variant="secondary" size="sm" onClick={handleCheck} disabled={downloading}>
+            <RefreshCw className={`w-4 h-4 mr-1.5 ${downloading ? 'animate-spin' : ''}`} />
+            {updateInfo?.hasUpdate ? '发现新版本' : '检查更新'}
           </Button>
           <Button variant="secondary" size="sm" asChild>
             <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
@@ -81,6 +95,96 @@ export default function AboutPage() {
           </Button>
         </div>
       </motion.div>
+
+      {/* 发现新版本时的内联更新卡片 */}
+      {updateInfo?.hasUpdate && (
+        <Card className="border-primary/40 bg-primary/[0.04] sheikah-glow mb-4">
+          <CardContent className="p-5">
+            <div className="flex items-start gap-4">
+              <div className="p-2.5 rounded-lg bg-primary/15 text-primary shrink-0">
+                <Download className="w-5 h-5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <h3 className="font-display font-semibold">发现新版本 {updateInfo.latest}</h3>
+                  <Badge variant="outline" className="text-[10px]">
+                    当前 {APP_VERSION}
+                  </Badge>
+                </div>
+                {updateInfo.body && (
+                  <p className="text-xs text-muted-foreground line-clamp-2 mb-3 whitespace-pre-wrap">
+                    {updateInfo.body}
+                  </p>
+                )}
+
+                {/* 下载进度 */}
+                {(downloading || downloadDone) && (
+                  <div className="mb-3">
+                    <div className="flex items-center justify-between mb-1.5 text-xs">
+                      <span className="text-muted-foreground">
+                        {downloading ? '下载中...' : downloadDone ? '下载完成' : ''}
+                      </span>
+                      <span className="font-display tabular-nums text-primary">
+                        {download.progress}%
+                      </span>
+                    </div>
+                    <Progress value={download.progress} className="h-2" />
+                    <div className="flex items-center justify-between mt-1.5 text-[11px] text-muted-foreground font-display tabular-nums">
+                      <span>
+                        {formatBytes(download.downloadedBytes)} /{' '}
+                        {download.totalBytes > 0 ? formatBytes(download.totalBytes) : '...'}
+                      </span>
+                      {downloading && download.speed > 0 && (
+                        <span>{formatBytes(download.speed)}/s</span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  {!downloading && !downloadDone && (
+                    <>
+                      {isAndroid && updateInfo.apkAsset ? (
+                        <Button size="sm" onClick={handleDownload}>
+                          <Download className="w-4 h-4 mr-1.5" />
+                          立即下载 ({formatBytes(updateInfo.apkAsset.size)})
+                        </Button>
+                      ) : (
+                        <Button size="sm" asChild>
+                          <a
+                            href={updateInfo.htmlUrl || REPO_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLink className="w-4 h-4 mr-1.5" />
+                            前往 GitHub 下载
+                          </a>
+                        </Button>
+                      )}
+                    </>
+                  )}
+                  {downloading && (
+                    <Button variant="secondary" size="sm" onClick={cancelDownload}>
+                      取消下载
+                    </Button>
+                  )}
+                  {downloadDone && download.localPath && (
+                    <Button size="sm" onClick={installUpdate}>
+                      <CheckCircle2 className="w-4 h-4 mr-1.5" />
+                      安装更新
+                    </Button>
+                  )}
+                  {downloading && (
+                    <span className="text-xs text-muted-foreground">
+                      下载在后台进行，可继续浏览其他页面
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="space-y-4">
         <Card className="border-border/60 bg-card/50">
@@ -112,7 +216,7 @@ export default function AboutPage() {
               <li>· 打勾记录收集进度，localStorage 本地持久化</li>
               <li>· 分类筛选、关键词搜索、收藏夹</li>
               <li>· 神庙 / 高塔 / 回忆 / 任务 / 克洛格全进度统计</li>
-              <li>· 应用内检查更新（基于 GitHub Releases）</li>
+              <li>· 应用内检查更新，支持下载进度条与后台下载更新</li>
             </ul>
           </CardContent>
         </Card>
@@ -155,7 +259,10 @@ export default function AboutPage() {
               </p>
               <Separator className="my-3" />
               <p className="text-xs">
-                开源仓库：<Link to={REPO_URL} className="text-primary hover:underline">{REPO_URL}</Link>
+                开源仓库：
+                <Link to={REPO_URL} className="text-primary hover:underline">
+                  {REPO_URL}
+                </Link>
                 <br />
                 版本 {APP_VERSION} · MIT License · 数据基于公开资料整理
               </p>
@@ -164,15 +271,16 @@ export default function AboutPage() {
         </Card>
       </div>
 
+      {/* 检查更新对话框 */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="font-display">检查更新</DialogTitle>
             <DialogDescription>
-              {checking ? '正在检查最新版本...' : updateInfo?.hasUpdate ? '发现新版本！' : '当前已是最新版本'}
+              {updateInfo?.hasUpdate ? '发现新版本！' : '当前已是最新版本'}
             </DialogDescription>
           </DialogHeader>
-          {updateInfo && !checking && (
+          {updateInfo && (
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3">
                 <span className="text-muted-foreground">当前版本</span>
@@ -190,10 +298,14 @@ export default function AboutPage() {
             </div>
           )}
           <DialogFooter className="gap-2">
-            <Button variant="secondary" onClick={() => setDialogOpen(false)}>关闭</Button>
+            <Button variant="secondary" onClick={() => setDialogOpen(false)}>
+              关闭
+            </Button>
             {updateInfo?.hasUpdate && (
               <Button asChild>
-                <a href={REPO_URL} target="_blank" rel="noopener noreferrer">前往 GitHub 下载</a>
+                <a href={updateInfo.htmlUrl || REPO_URL} target="_blank" rel="noopener noreferrer">
+                  前往 GitHub
+                </a>
               </Button>
             )}
           </DialogFooter>
@@ -201,13 +313,6 @@ export default function AboutPage() {
       </Dialog>
     </div>
   );
-}
-
-function parseVersion(v: string): number[] {
-  return v
-    .replace(/^v/i, '')
-    .split('.')
-    .map((n) => parseInt(n, 10) || 0);
 }
 
 function DataItem({ label, value }: { label: string; value: string }) {

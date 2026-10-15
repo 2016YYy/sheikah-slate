@@ -2,13 +2,20 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SheikahHeader } from './SheikahHeader';
 import { BottomNav } from './BottomNav';
+import { useUpdate } from '@/hooks/use-update';
 
 export function Layout() {
   const location = useLocation();
+  const { download } = useUpdate();
+  const barVisible =
+    download.status === 'downloading' ||
+    download.status === 'paused' ||
+    download.status === 'done' ||
+    download.status === 'error';
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <SheikahHeader />
+      <SheikahHeader topOffset={barVisible ? 52 : 0} />
       <main className="flex-1 w-full pb-20 md:pb-8">
         <AnimatePresence mode="wait">
           <motion.div

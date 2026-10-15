@@ -1,13 +1,20 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Info } from 'lucide-react';
+import { Info, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export function SheikahHeader() {
+export function SheikahHeader({ topOffset = 0 }: { topOffset?: number }) {
   const location = useLocation();
   const isHome = location.pathname === '/';
 
+  const openSearch = () => {
+    window.dispatchEvent(new Event('open-command-palette'));
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/85 backdrop-blur-md border-b border-border/40">
+    <header
+      className="sticky z-50 w-full bg-background/85 backdrop-blur-md border-b border-border/40 transition-all duration-300"
+      style={{ top: topOffset }}
+    >
       <div className="max-w-6xl mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
           <div className="relative w-8 h-9 flex items-center justify-center">
@@ -39,7 +46,10 @@ export function SheikahHeader() {
         </div>
 
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" asChild>
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={openSearch} aria-label="搜索">
+            <Search className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground hidden sm:flex" asChild>
             <Link to="/about" aria-label="关于">
               <Info className="w-4 h-4" />
             </Link>
